@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "npm run build:pages",
     "build:dev": "ng build --configuration development",
     "build:prod": "ng build --configuration production",
     "build:pages": "ng build --configuration pages && node scripts/prepare-pages-output.mjs",
@@ -13,7 +13,11 @@
     "build:ssr:prod": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "lint": "ng lint"
+    "lint": "ng lint",
+    "deploy": "wrangler deploy"
+  },
+  "engines": {
+    "node": ">=22"
   },
   "prettier": {
     "printWidth": 100,
@@ -52,6 +56,7 @@
     "express": "^5.2.1",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",
-    "vitest": "^4.0.8"
+    "vitest": "^4.0.8",
+    "wrangler": "^4.19.0"
   }
 }

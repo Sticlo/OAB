@@ -1,10 +1,6 @@
 name = "operadoresasociadosbogota1"
 compatibility_date = "2025-05-24"
 
-[build]
-command = "npm run build:pages"
-
 [assets]
 directory = "./dist/sio-angular/browser"
 not_found_handling = "single-page-application"
-html_handling = "auto-trailing-slash"

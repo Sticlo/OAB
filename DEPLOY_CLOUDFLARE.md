@@ -49,8 +49,9 @@ Cloudflare **no permite** enlazar Git a un proyecto que solo usa “subida manua
 | Campo | Valor |
 |-------|--------|
 | Production branch | `main` |
-| Build command | `npm run build:pages` |
-| Build output directory | `dist/sio-angular/browser` |
+| Build command | `npm run build` (equivale a `build:pages`) |
+| Deploy command | `npx wrangler deploy` |
+| Build output directory | `dist/sio-angular/browser` (definido en `wrangler.toml`) |
 | Root directory | `/` |
 
 4. Conecta el dominio **operadoresasociadosbogota.com** al nuevo proyecto y desactiva el deploy manual del anterior.
