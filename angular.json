@@ -70,6 +70,22 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "pages": {
+              "outputMode": "static",
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2MB",
+                  "maximumError": "5MB"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "30kB",
+                  "maximumError": "50kB"
+                }
+              ],
+              "outputHashing": "all"
             }
           },
           "defaultConfiguration": "production"
