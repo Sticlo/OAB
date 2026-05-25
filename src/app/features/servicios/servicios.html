@@ -1,0 +1,36 @@
+<div class="servicios-page">
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="section-tag">SERVICIOS OAB</span>
+      <h1 class="hero-title">Servicios para Nuestros Asociados</h1>
+      <p class="hero-subtitle">Operadores Asociados Bogotá ofrece servicios integrales para el desarrollo profesional y bienestar de los operadores de maquinaria pesada</p>
+    </div>
+  </section>
+
+  <section class="services-grid">
+    <div class="container">
+      @for (service of services; track service.title) {
+        <div class="service-card">
+          <div class="service-icon">{{ service.icon }}</div>
+          <h3 class="service-title">{{ service.title }}</h3>
+          <p class="service-description">{{ service.description }}</p>
+          <ul class="service-features">
+            @for (feature of service.features; track feature) {
+              <li>{{ feature }}</li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <div class="cta-content">
+        <h2 class="cta-title">¿Interesado en nuestros servicios?</h2>
+        <p class="cta-description">Únete a nuestra asociación y accede a todos los beneficios para operadores de maquinaria pesada</p>
+        <a routerLink="/contacto" class="cta-btn">Contáctanos</a>
+      </div>
+    </div>
+  </section>
+</div>

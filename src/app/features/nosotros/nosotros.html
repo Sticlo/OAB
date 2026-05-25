@@ -1,0 +1,226 @@
+<div class="nosotros-page">
+  <section class="hero-section">
+    <div class="hero-content">
+      <span class="section-tag">NOSOTROS OAB</span>
+      <h1 class="hero-title">Operadores Asociados Bogotá</h1>
+      <p class="hero-subtitle">Unidos por la excelencia en la operación de maquinaria pesada desde 2015</p>
+    </div>
+  </section>
+
+  <section class="story-section">
+    <div class="container">
+      <div class="story-content">
+        <h2>Nuestra Historia</h2>
+        <p>En <strong>Operadores Asociados Bogotá (OAB)</strong>, somos una asociación sin ánimo de lucro que agremia a los mejores operadores de maquinaria pesada de la región. Fundada en 2015, nuestra misión es promover el desarrollo profesional, la capacitación continua y el bienestar integral de nuestros asociados.</p>
+        <p>Con más de 500 operadores certificados y 11 años de trayectoria, nos hemos consolidado como la organización líder en la defensa de los derechos y el bienestar de los profesionales del sector de maquinaria pesada en Colombia.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="values-section">
+    <div class="container">
+      <h2 class="section-title">Nuestros Valores</h2>
+      <div class="values-grid">
+        @for (value of values; track value.title) {
+          <div class="value-card">
+            <div class="value-icon">{{ value.icon }}</div>
+            <h3>{{ value.title }}</h3>
+            <p>{{ value.description }}</p>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <!-- SECCIÓN JUNTA DIRECTIVA — Animación automática de grúa  -->
+  <!-- ══════════════════════════════════════════════════════════ -->
+  <section class="team-section">
+    <!-- Contenedor que muestra la animación -->
+    <div class="sticky-viewport">
+      <div class="viewport-content">
+        <h2 class="section-title">Junta Directiva</h2>
+        <p class="section-subtitle">Animación automática</p>
+
+        <!-- Barra de progreso visual -->
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="scrollPercent()"></div>
+        </div>
+
+        <div class="crane-workspace">
+          <!-- ═══ IZQUIERDA: Organigrama ═══ -->
+          <div class="organigrama">
+            <!-- Nivel 1: Presidente -->
+            <div class="org-row nivel-1">
+              @if (membersPlaced() >= 1) {
+                <div class="team-card placed presidente">
+                  <div class="card-glow"></div>
+                  <div class="member-avatar">{{ team[0].image }}</div>
+                  <h3 class="member-name">{{ team[0].name }}</h3>
+                  <p class="member-role">{{ team[0].role }}</p>
+                </div>
+              } @else {
+                <div class="team-card placeholder"><span class="ph-icon">🏗️</span></div>
+              }
+            </div>
+            @if (membersPlaced() >= 1) {
+              <div class="org-line vertical"></div>
+            }
+
+            <!-- Nivel 2: Vicepresidente -->
+            <div class="org-row nivel-2">
+              @if (membersPlaced() >= 2) {
+                <div class="team-card placed">
+                  <div class="card-glow"></div>
+                  <div class="member-avatar">{{ team[1].image }}</div>
+                  <h3 class="member-name">{{ team[1].name }}</h3>
+                  <p class="member-role">{{ team[1].role }}</p>
+                </div>
+              } @else {
+                <div class="team-card placeholder"><span class="ph-icon">🏗️</span></div>
+              }
+            </div>
+            @if (membersPlaced() >= 2) {
+              <div class="org-line vertical"></div>
+            }
+
+            <!-- Nivel 3: Direcciones (6 cargos) -->
+            <div class="org-row nivel-3">
+              @if (membersPlaced() >= 3) {
+                <div class="org-line horizontal-wide"></div>
+              }
+              @for (i of [2, 3, 4, 5, 6, 7]; track i) {
+                @if (membersPlaced() >= i + 1) {
+                  <div class="team-card placed small">
+                    <div class="card-glow"></div>
+                    <div class="member-avatar small">{{ team[i].image }}</div>
+                    <p class="member-role-only">{{ team[i].role }}</p>
+                  </div>
+                } @else {
+                  <div class="team-card placeholder small"><span class="ph-icon-small">🏗️</span></div>
+                }
+              }
+            </div>
+            
+            <!-- Líneas conectoras nivel 3 a 4 -->
+            <div class="org-row lines-row-multi">
+              @for (i of [2, 3, 4, 5, 6, 7]; track i) {
+                @if (membersPlaced() >= i + 1) {
+                  <div class="org-line vertical-small"></div>
+                }
+              }
+            </div>
+
+            <!-- Nivel 4: Personal de cada dirección -->
+            <div class="org-row nivel-4">
+              @for (i of [8, 9, 10, 11, 12, 13]; track i) {
+                @if (membersPlaced() >= i + 1) {
+                  <div class="team-card placed tiny">
+                    <div class="card-glow"></div>
+                    <div class="member-avatar tiny">{{ team[i].image }}</div>
+                    @if (team[i].name) {
+                      <h4 class="member-name-tiny">{{ team[i].name }}</h4>
+                    }
+                  </div>
+                } @else {
+                  <div class="team-card placeholder tiny"><span class="ph-icon-tiny">🏗️</span></div>
+                }
+              }
+            </div>
+
+            <!-- Nivel 5: Contadora y otros (solo mostrar si hay nombre) -->
+            @if (membersPlaced() >= 15) {
+              <div class="org-row nivel-5">
+                @for (i of [14, 15]; track i) {
+                  @if (membersPlaced() >= i + 1 && team[i].name) {
+                    <div class="team-card placed tiny">
+                      <div class="card-glow"></div>
+                      <div class="member-avatar tiny">{{ team[i].image }}</div>
+                      <h4 class="member-name-tiny">{{ team[i].name }}</h4>
+                      <p class="member-role-tiny">{{ team[i].role }}</p>
+                    </div>
+                  }
+                }
+              </div>
+            }
+          </div>
+
+          <!-- ═══ CENTRO: Grúa Torre ═══ -->
+          <div class="crane-tower"
+               [style.opacity]="craneOpacity()"
+               [style.transform]="'translateY(' + craneTranslateY() + 'px)'">
+            <div class="crane-base"></div>
+            <div class="crane-mast">
+              <div class="mast-lattice"></div>
+            </div>
+            <div class="crane-cabin">
+              <div class="cabin-window"></div>
+            </div>
+
+            <!-- Jib — brazos + trole -->
+            <div class="crane-jib-wrapper"
+                 [style.opacity]="armOpacity()">
+              <div class="crane-arm crane-arm-right">
+                <div class="arm-lattice"></div>
+              </div>
+              <div class="crane-arm crane-arm-left">
+                <div class="arm-lattice"></div>
+              </div>
+              <div class="crane-counterweight"></div>
+
+              <div class="crane-trolley" [style.left.px]="trolleyPosition()">
+                <div class="crane-cable"
+                     [style.height.px]="cableHeight()"
+                     [style.transform]="'translateX(-50%) rotate(' + cableAngle() + 'deg)'">
+                  <div class="crane-hook" [class.hook-active]="currentlyLifting() >= 0">
+                    @if (currentlyLifting() >= 0) {
+                      <div class="lifted-card"
+                           [style.box-shadow]="liftedShadow()">
+                        <div class="suspended-shadow"
+                             [style.opacity]="suspendedShadowOpacity()"
+                             [style.width.px]="suspendedShadowWidth()"></div>
+                        <div class="member-avatar">{{ team[currentlyLifting()].image }}</div>
+                        <h3 class="member-name">{{ team[currentlyLifting()].name }}</h3>
+                        <p class="member-role">{{ team[currentlyLifting()].role }}</p>
+                      </div>
+                    }
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Indicador de progreso (puntos) -->
+            <div class="crane-progress">
+              @for (m of team; track $index) {
+                <div class="progress-dot" [class.filled]="membersPlaced() > $index"></div>
+              }
+            </div>
+          </div>
+
+          <!-- ═══ DERECHA: Zona de Carga ═══ -->
+          <div class="loading-zone">
+            <h3 class="zone-title">
+              <span class="zone-icon">📦</span>
+              Zona de Carga
+              <span class="zone-count">{{ team.length - membersPlaced() }}</span>
+            </h3>
+            <div class="card-stack">
+              @for (member of team; track $index) {
+                @if (membersPlaced() <= $index && currentlyLifting() !== $index) {
+                  <div class="team-card waiting"
+                       [class.next-up]="$index === nextMemberIndex()">
+                    <div class="member-avatar">{{ member.image }}</div>
+                    <h3 class="member-name">{{ member.name }}</h3>
+                    <p class="member-role">{{ member.role }}</p>
+                  </div>
+                }
+              }
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+    </div>
+  </section>
+</div>

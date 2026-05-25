@@ -1,0 +1,1116 @@
+.nosotros-page {
+  min-height: 100vh;
+  padding-top: 70px;
+}
+
+.hero-section {
+  background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%); // Negro OAB
+  padding: 100px 20px 80px;
+  text-align: center;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, rgba(255, 140, 0, 0.15) 0%, transparent 70%); // Naranja OAB
+    pointer-events: none;
+  }
+  
+  .hero-content {
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .section-tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    color: #FF8C00; // Naranja OAB
+    margin-bottom: 1.5rem;
+    text-transform: uppercase;
+    padding: 0.5rem 1rem;
+    background: rgba(255, 140, 0, 0.15);
+    border-radius: 8px;
+    border: 1px solid rgba(255, 140, 0, 0.3);
+  }
+  
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 3.5rem);
+    font-weight: 700;
+    margin-bottom: 24px;
+    animation: fadeInDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hero-subtitle {
+    font-size: clamp(1.1rem, 2vw, 1.35rem);
+    opacity: 0.9;
+    line-height: 1.6;
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) 0.2s backwards;
+  }
+}
+
+.story-section {
+  padding: 80px 20px;
+  background: white;
+  
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .story-content {
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    h2 {
+      font-size: 32px;
+      font-weight: 700;
+      color: #FF8C00; // Naranja OAB
+      margin-bottom: 24px;
+    }
+    
+    p {
+      font-size: 18px;
+      line-height: 1.8;
+      color: #4a4a4a;
+      margin-bottom: 20px;
+      
+      strong {
+        color: #FF8C00; // Naranja OAB
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.values-section {
+  padding: 80px 20px;
+  background: #F1F5F9;
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .section-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a; // Negro OAB
+    text-align: center;
+    margin-bottom: 48px;
+    animation: fadeInDown 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 32px;
+  }
+  
+  .value-card {
+    background: white;
+    border-radius: 16px;
+    padding: 32px;
+    text-align: center;
+    border: 2px solid rgba(255, 140, 0, 0.1); // Naranja OAB
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    animation: fadeInUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    
+    @for $i from 1 through 4 {
+      &:nth-child(#{$i}) {
+        animation-delay: #{$i * 0.1}s;
+      }
+    }
+    
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 40px rgba(255, 140, 0, 0.25); // Naranja OAB
+      border-color: rgba(255, 140, 0, 0.4);
+    }
+    
+    .value-icon {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    
+    h3 {
+      font-size: 20px;
+      font-weight: 700;
+      color: #1a1a1a; // Negro OAB
+      margin-bottom: 12px;
+    }
+    
+    p {
+      font-size: 15px;
+      color: #64748b;
+      line-height: 1.6;
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════════
+// TEAM SECTION — Animación Automática de Grúa
+//
+// Paradigma:
+//   • Animación automática basada en tiempo
+//   • El viewport contiene la escena de la grúa
+//   • El TS calcula progress 0→1 según tiempo transcurrido
+//   • La grúa se mueve vía [style.*] bindings
+//   • Solo transform y opacity — alto rendimiento, 0 reflows
+// ═══════════════════════════════════════════════════════════════════
+
+.team-section {
+  // Altura ajustada para contener la animación
+  min-height: 100vh;
+  position: relative;
+  background: #f8f9fa;
+  padding: 60px 0;
+
+  // ─────────────────────────
+  // VIEWPORT
+  // ─────────────────────────
+  .sticky-viewport {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+
+  .viewport-content {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+
+  .section-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: #1a1a1a;
+    text-align: center;
+    margin-bottom: 8px;
+  }
+
+  .section-subtitle {
+    text-align: center;
+    font-size: 16px;
+    color: #94a3b8;
+    margin-bottom: 16px;
+    letter-spacing: 0.5px;
+  }
+
+  // ─────────────────────────
+  // BARRA DE PROGRESO VISUAL
+  // ─────────────────────────
+  .progress-bar {
+    width: 200px;
+    height: 3px;
+    background: rgba(0,0,0,0.08);
+    border-radius: 3px;
+    margin: 0 auto 28px;
+    overflow: hidden;
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #FF8C00, #ffb347);
+      border-radius: 3px;
+      transition: width 0.05s linear;
+    }
+  }
+
+
+
+  // ─────────────────────────
+  // LAYOUT: 3 columnas
+  // ─────────────────────────
+  .crane-workspace {
+    display: grid;
+    grid-template-columns: 1fr 140px 1fr;
+    gap: 16px;
+    align-items: start;
+    min-height: 520px;
+    position: relative;
+  }
+
+  // ─────────────────────────
+  // CRANE TOWER (centro)
+  // ─────────────────────────
+  .crane-tower {
+    position: relative;
+    width: 140px;
+    height: 520px;
+    justify-self: center;
+    z-index: 20;
+    // Opacity y transform controlados por [style.*] desde TS
+    will-change: opacity, transform;
+  }
+
+  // Base de la grúa
+  .crane-base {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 110px;
+    height: 20px;
+    background: linear-gradient(180deg, #4a4a4a, #1a1a1a);
+    border-radius: 4px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 70px;
+      height: 12px;
+      background: #333;
+      border-radius: 3px;
+    }
+
+    // Sombra en el suelo
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -6px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 130px;
+      height: 8px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.15), transparent 70%);
+    }
+  }
+
+  // Mástil
+  .crane-mast {
+    position: absolute;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 400px;
+    background: linear-gradient(90deg, #FF8C00, #ffA030, #FF8C00);
+    box-shadow: inset -2px 0 4px rgba(0,0,0,0.3), 2px 0 10px rgba(255,140,0,0.3);
+    border-radius: 2px;
+
+    .mast-lattice {
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, transparent, transparent 30px, #1a1a1a 30px, #1a1a1a 32px),
+        repeating-linear-gradient(45deg, transparent, transparent 14px, rgba(0,0,0,0.1) 14px, rgba(0,0,0,0.1) 15px);
+    }
+  }
+
+  // Cabina
+  .crane-cabin {
+    position: absolute;
+    top: 88px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 26px;
+    height: 22px;
+    background: linear-gradient(180deg, #ffA030, #FF8C00);
+    border: 2px solid #cc6d00;
+    border-radius: 4px 4px 0 0;
+    z-index: 5;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.3);
+
+    .cabin-window {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 10px;
+      height: 10px;
+      background: linear-gradient(135deg, #b5e5f5, #87ceeb);
+      border-radius: 2px;
+      border: 1px solid #cc6d00;
+    }
+  }
+
+  // Contenedor del jib
+  .crane-jib-wrapper {
+    position: absolute;
+    top: 90px;
+    left: 50%;
+    z-index: 10;
+    width: 0;
+    height: 0;
+    will-change: opacity;
+  }
+
+  // Brazos
+  .crane-arm {
+    position: absolute;
+    top: -5px;
+    height: 10px;
+    background: linear-gradient(180deg, #FF8C00, #e07800);
+    box-shadow: 0 3px 10px rgba(255,140,0,0.4);
+
+    .arm-lattice {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        90deg, transparent, transparent 16px,
+        rgba(0,0,0,0.12) 16px, rgba(0,0,0,0.12) 17px
+      );
+    }
+
+    &.crane-arm-right {
+      left: 0;
+      width: 260px;
+      border-radius: 0 4px 4px 0;
+
+      &::after {
+        content: '';
+        position: absolute;
+        right: -4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 16px;
+        background: #1a1a1a;
+        border-radius: 2px;
+      }
+    }
+
+    &.crane-arm-left {
+      right: 0;
+      width: 260px;
+      border-radius: 4px 0 0 4px;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: -4px;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 5px;
+        height: 16px;
+        background: #1a1a1a;
+        border-radius: 2px;
+      }
+    }
+  }
+
+  // Contrapeso
+  .crane-counterweight {
+    position: absolute;
+    top: -14px;
+    right: 20px;
+    width: 22px;
+    height: 24px;
+    background: linear-gradient(180deg, #444, #222);
+    border-radius: 3px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.5);
+
+    // Cable del contrapeso
+    &::before {
+      content: '';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: #666;
+    }
+  }
+
+  // Trole (controlado por [style.left.px])
+  .crane-trolley {
+    position: absolute;
+    top: -12px;
+    width: 18px;
+    height: 18px;
+    background: radial-gradient(circle, #555 40%, #2d2d2d 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    will-change: left;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background: #FF8C00;
+      border-radius: 50%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 0 6px rgba(255,140,0,0.6);
+    }
+  }
+
+  // Cable (controlado por [style.height.px] y [style.transform] desde TS)
+  .crane-cable {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    width: 2px;
+    background: repeating-linear-gradient(180deg, #666, #666 4px, #999 4px, #999 5px);
+    box-shadow: 1px 0 4px rgba(0,0,0,0.3);
+    transform-origin: top center;
+    will-change: height, transform;
+  }
+
+  // Gancho
+  .crane-hook {
+    position: absolute;
+    bottom: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 16px;
+    height: 16px;
+    border: 3px solid #FF8C00;
+    border-top: none;
+    border-radius: 0 0 50% 50%;
+    box-shadow: 0 3px 10px rgba(255,140,0,0.4);
+    transition: box-shadow 0.3s ease;
+
+    &.hook-active {
+      box-shadow: 0 3px 16px rgba(255,140,0,0.8), 0 0 20px rgba(255,140,0,0.3);
+    }
+  }
+
+  // ─────────────────────────
+  // TARJETA SUSPENDIDA
+  // ─────────────────────────
+  .lifted-card {
+    position: absolute;
+    top: 22px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: white;
+    border: 3px solid #FF8C00;
+    border-radius: 12px;
+    padding: 14px 18px;
+    min-width: 170px;
+    text-align: center;
+    z-index: 100;
+    transform-origin: top center;
+    // box-shadow controlado por [style.box-shadow] desde TS
+    will-change: box-shadow;
+
+    .suspended-shadow {
+      position: absolute;
+      bottom: -18px;
+      left: 50%;
+      transform: translateX(-50%);
+      height: 10px;
+      background: radial-gradient(ellipse, rgba(0,0,0,0.15), transparent 70%);
+      will-change: width, opacity;
+    }
+
+    .member-avatar { font-size: 34px; margin-bottom: 6px; }
+    .member-name { font-size: 13px; font-weight: 700; color: #1a1a1a; margin-bottom: 3px; }
+    .member-role { font-size: 10px; color: #FF8C00; font-weight: 600; }
+  }
+
+  // Puntos de progreso
+  .crane-progress {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+
+    .progress-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #ddd;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      &.filled {
+        background: #FF8C00;
+        transform: scale(1.3);
+        box-shadow: 0 0 8px rgba(255,140,0,0.5);
+      }
+    }
+  }
+
+  // ─────────────────────────
+  // ZONA DE CARGA (derecha)
+  // ─────────────────────────
+  .loading-zone {
+    padding: 16px;
+    padding-top: 50px;
+
+    .zone-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 16px;
+      text-align: center;
+      padding: 10px 16px;
+      background: rgba(255,140,0,0.08);
+      border-radius: 10px;
+      border: 1px solid rgba(255,140,0,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+
+      .zone-icon { font-size: 18px; }
+
+      .zone-count {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: #FF8C00;
+        color: white;
+        font-size: 12px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+    }
+
+    .card-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .team-card.waiting {
+      opacity: 0.85;
+      transition: all 0.4s ease;
+
+      &.next-up {
+        opacity: 1;
+        border-color: #FF8C00;
+        box-shadow: 0 4px 20px rgba(255,140,0,0.25);
+      }
+    }
+  }
+
+  // ─────────────────────────
+  // ORGANIGRAMA (izquierda)
+  // ─────────────────────────
+  .organigrama {
+    padding: 16px 8px;
+    padding-top: 35px;
+  }
+
+  .org-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 8px;
+    position: relative;
+
+    &.presidente-row { margin-bottom: 8px; }
+    &.vice-row { gap: 14px; margin-bottom: 8px; }
+    &.lines-row { gap: 14px; margin-bottom: 8px; }
+    &.directores-row { gap: 14px; }
+    
+    &.nivel-3 {
+      gap: 8px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+      max-width: 100%;
+    }
+    
+    &.nivel-4 {
+      gap: 6px;
+      margin-bottom: 6px;
+      flex-wrap: wrap;
+    }
+    
+    &.nivel-5 {
+      gap: 8px;
+      margin-top: 8px;
+    }
+    
+    &.lines-row-multi {
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+  }
+
+  .org-line {
+    background: #FF8C00;
+
+    &.vertical { width: 3px; height: 24px; margin: 0 auto; }
+    &.horizontal {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 180px;
+      height: 3px;
+      z-index: -1;
+    }
+    &.vertical-small { width: 3px; height: 24px; }
+    
+    &.horizontal-wide {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 90%;
+      height: 3px;
+      z-index: -1;
+    }
+  }
+
+  // ─────────────────────────
+  // TARJETAS
+  // ─────────────────────────
+  .team-card {
+    text-align: center;
+    padding: 16px 14px;
+    background: white;
+    border-radius: 12px;
+    border: 2px solid #e0e0e0;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+    min-width: 155px;
+    max-width: 190px;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .card-glow {
+      position: absolute;
+      inset: -2px;
+      border-radius: 14px;
+      pointer-events: none;
+      box-shadow: 0 0 20px rgba(255,140,0,0.3), 0 0 50px rgba(255,140,0,0.08);
+      opacity: 0;
+      animation: glowPulse 2s ease-in-out infinite;
+    }
+
+    &.placeholder {
+      opacity: 0.12;
+      border-style: dashed;
+      border-color: #FF8C00;
+      background: rgba(255,140,0,0.02);
+      min-height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .ph-icon { font-size: 32px; opacity: 0.4; }
+    }
+
+    &.placed {
+      border-color: #FF8C00;
+      box-shadow: 0 6px 20px rgba(255,140,0,0.15);
+      animation: cardAppear 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+
+      .card-glow { opacity: 1; }
+    }
+    
+    &.presidente {
+      border-color: #FF8C00;
+      background: linear-gradient(135deg, #fff, #fffaf0);
+      box-shadow: 0 8px 24px rgba(255,140,0,0.25);
+    }
+
+    &:hover:not(.placeholder) {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(255,140,0,0.25);
+    }
+    
+    // Tarjeta pequeña (direcciones)
+    &.small {
+      min-width: 100px;
+      max-width: 120px;
+      padding: 10px 8px;
+      
+      .member-avatar.small {
+        font-size: 24px;
+        margin-bottom: 4px;
+      }
+      
+      .member-role-only {
+        font-size: 10px;
+        color: #FF8C00;
+        font-weight: 600;
+        margin: 0;
+      }
+      
+      .ph-icon-small { font-size: 20px; opacity: 0.4; }
+    }
+    
+    // Tarjeta muy pequeña (personal)
+    &.tiny {
+      min-width: 80px;
+      max-width: 100px;
+      padding: 8px 6px;
+      
+      .member-avatar.tiny {
+        font-size: 20px;
+        margin-bottom: 3px;
+      }
+      
+      .member-name-tiny {
+        font-size: 9px;
+        font-weight: 600;
+        color: #1a1a1a;
+        margin: 0 0 2px 0;
+        line-height: 1.2;
+      }
+      
+      .member-role-tiny {
+        font-size: 8px;
+        color: #FF8C00;
+        font-weight: 500;
+        margin: 0;
+      }
+      
+      .ph-icon-tiny { font-size: 16px; opacity: 0.4; }
+    }
+
+    .member-avatar {
+      font-size: 38px;
+      margin-bottom: 8px;
+      filter: drop-shadow(0 2px 4px rgba(255,140,0,0.25));
+    }
+
+    .member-name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 4px;
+    }
+
+    .member-role {
+      font-size: 11px;
+      color: #FF8C00;
+      font-weight: 600;
+    }
+  }
+
+  // ─────────────────────────
+  // RESPONSIVE
+  // ─────────────────────────
+  @media (max-width: 833px) {
+    // En móvil, mantener altura reducida con animación automática
+    min-height: 100vh;
+    padding: 40px 0;
+
+    .sticky-viewport {
+      position: relative;
+      height: auto;
+      min-height: 90vh;
+    }
+
+    .viewport-content {
+      padding: 20px 12px;
+    }
+
+    .section-title {
+      font-size: 28px;
+      margin-bottom: 6px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+
+    .progress-bar {
+      width: 150px;
+      margin-bottom: 20px;
+    }
+
+    // Layout móvil: vertical - organigrama arriba, grúa centro pequeña, carga abajo
+    .crane-workspace {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      gap: 20px;
+      align-items: center;
+    }
+
+    // Organigrama más compacto
+    .organigrama {
+      padding: 12px 8px;
+      padding-top: 0;
+      order: 1;
+      
+      .org-row {
+        gap: 8px;
+        margin-bottom: 6px;
+        flex-wrap: wrap;
+        justify-content: center;
+
+        &.nivel-3 { 
+          gap: 6px; 
+          margin-bottom: 4px;
+        }
+        &.nivel-4 { 
+          gap: 4px; 
+          margin-bottom: 4px;
+        }
+        &.nivel-5 {
+          gap: 6px;
+          margin-top: 6px;
+        }
+        &.lines-row-multi {
+          gap: 6px;
+          height: 12px;
+        }
+      }
+
+      .org-line {
+        &.vertical { height: 12px; }
+        &.horizontal-wide { width: 80%; }
+        &.vertical-small { height: 10px; }
+      }
+    }
+
+    // Grúa más pequeña pero visible
+    .crane-tower {
+      order: 2;
+      width: 100px;
+      height: 360px;
+      margin: 0 auto;
+    }
+
+    .crane-base {
+      width: 80px;
+      height: 16px;
+
+      &::before {
+        width: 50px;
+        height: 10px;
+        top: -8px;
+      }
+
+      &::after {
+        width: 90px;
+        height: 6px;
+        bottom: -4px;
+      }
+    }
+
+    .crane-mast {
+      bottom: 22px;
+      width: 9px;
+      height: 280px;
+    }
+
+    .crane-cabin {
+      top: 63px;
+      width: 20px;
+      height: 18px;
+
+      .cabin-window {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    .crane-jib-wrapper {
+      top: 65px;
+    }
+
+    .crane-arm {
+      height: 8px;
+
+      &.crane-arm-right {
+        width: 180px;
+      }
+
+      &.crane-arm-left {
+        width: 180px;
+      }
+    }
+
+    .crane-counterweight {
+      width: 16px;
+      height: 18px;
+      right: 15px;
+      top: -10px;
+
+      &::before {
+        width: 2px;
+        height: 14px;
+      }
+    }
+
+    .crane-progress {
+      left: 50%;
+      transform: translateX(-50%);
+      gap: 5px;
+      
+      .progress-dot {
+        width: 7px;
+        height: 7px;
+      }
+    }
+
+    // Zona de carga más compacta
+    .loading-zone {
+      order: 3;
+      padding: 12px;
+
+      .zone-title {
+        font-size: 14px;
+        margin-bottom: 12px;
+
+        .zone-icon { font-size: 18px; }
+        .zone-count {
+          width: 22px;
+          height: 22px;
+          font-size: 11px;
+        }
+      }
+
+      .card-stack {
+        gap: 8px;
+      }
+    }
+
+    // Tarjetas más pequeñas
+    .team-card {
+      min-width: 120px;
+      max-width: 160px;
+      padding: 12px 10px;
+
+      .member-avatar {
+        font-size: 32px;
+        margin-bottom: 6px;
+      }
+
+      .member-name {
+        font-size: 12px;
+      }
+
+      .member-role {
+        font-size: 10px;
+      }
+
+      &.placeholder {
+        min-height: 80px;
+
+        .ph-icon { font-size: 24px; }
+      }
+      
+      &.small {
+        min-width: 70px;
+        max-width: 90px;
+        padding: 8px 6px;
+        
+        .member-avatar.small {
+          font-size: 18px;
+          margin-bottom: 3px;
+        }
+        
+        .member-role-only {
+          font-size: 8px;
+        }
+        
+        .ph-icon-small { font-size: 16px; }
+      }
+      
+      &.tiny {
+        min-width: 60px;
+        max-width: 75px;
+        padding: 6px 4px;
+        
+        .member-avatar.tiny {
+          font-size: 16px;
+          margin-bottom: 2px;
+        }
+        
+        .member-name-tiny {
+          font-size: 8px;
+          line-height: 1.1;
+        }
+        
+        .member-role-tiny {
+          font-size: 7px;
+        }
+        
+        .ph-icon-tiny { font-size: 12px; }
+      }
+    }
+
+    // Cable y tarjeta levantada
+    .crane-cable {
+      width: 2px;
+    }
+
+    .crane-hook {
+      width: 14px;
+      height: 10px;
+
+      &::before {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    .lifted-card {
+      min-width: 120px;
+      max-width: 160px;
+      padding: 12px 10px;
+
+      .member-avatar {
+        font-size: 32px;
+        margin-bottom: 6px;
+      }
+
+      .member-name {
+        font-size: 12px;
+      }
+
+      .member-role {
+        font-size: 10px;
+      }
+    }
+
+    .suspended-shadow {
+      height: 4px;
+      bottom: -20px;
+    }
+  }
+}
+
+// ═══════════════════════════════════════
+// KEYFRAMES (mínimos — solo efectos de colocación)
+// ═══════════════════════════════════════
+
+@keyframes fadeInDown {
+  from { opacity: 0; transform: translateY(-30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+// Tarjeta aparece en el organigrama (bounce suave)
+@keyframes cardAppear {
+  0%   { opacity: 0; transform: scale(0.5) translateY(-20px); }
+  50%  { opacity: 1; transform: scale(1.08) translateY(4px); }
+  75%  { transform: scale(0.97) translateY(-2px); }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+// Glow pulsante en tarjetas colocadas
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 20px rgba(255,140,0,0.3), 0 0 50px rgba(255,140,0,0.08); }
+  50%      { box-shadow: 0 0 30px rgba(255,140,0,0.45), 0 0 70px rgba(255,140,0,0.12); }
+}
+
+
